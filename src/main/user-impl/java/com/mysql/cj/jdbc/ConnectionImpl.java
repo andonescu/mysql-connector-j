@@ -2419,7 +2419,13 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     public void setSessionMaxRows(int max) throws SQLException {
         synchronized (getConnectionMutex()) {
             checkClosed();
-            if (this.propertySet.<Boolean>getProperty(PropertyKey.unsafeSelects).getValue() == Boolean.TRUE && this.session.getSessionMaxRows() != max) {
+            if (this.propertySet.<Boolean>getProperty(PropertyKey.unsafeSelects).getValue() == Boolean.TRUE) {
+                // if unsafeSelects property is enabled, then the application is responsible for setting on the all the
+                // queries the exact number of records that needs to be retrieved.
+                return;
+
+            }
+            if (this.session.getSessionMaxRows() != max) {
                 this.session.setSessionMaxRows(max);
                 this.session.execSQL(null, "SET SQL_SELECT_LIMIT=" + (this.session.getSessionMaxRows() == -1 ? "DEFAULT" : this.session.getSessionMaxRows()),
                         -1, null, false, this.nullStatementResultSetFactory, null, false);
