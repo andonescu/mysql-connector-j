@@ -102,6 +102,7 @@ public enum PropertyKey {
     createDatabaseIfNotExist("createDatabaseIfNotExist", true), //
     customCharsetMapping("customCharsetMapping", true), //
     databaseTerm("databaseTerm", true), //
+    unsafeSelects("unsafeSelects", true), //
     defaultAuthenticationPlugin("defaultAuthenticationPlugin", true), //
     defaultFetchSize("defaultFetchSize", true), //
     detectCustomCollations("detectCustomCollations", true), //
